@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authorize
-    redirect_to login_url, alert: "Not authorized"
+    redirect_to my_account_url, alert: "That page is only for Pro Users. Update your subscription!" unless current_user.is_active?
   end
 end
