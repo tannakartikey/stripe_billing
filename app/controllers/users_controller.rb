@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.is_active = false if @user.plan.stripe_id.nil?
     if @user.save
       session[:user_id] = @user.id
       redirect_to my_account_path, notice: "Thank you for signup"
