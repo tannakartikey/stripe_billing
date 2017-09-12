@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912073234) do
+ActiveRecord::Schema.define(version: 20170912084403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,11 +29,13 @@ ActiveRecord::Schema.define(version: 20170912073234) do
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "stirpe_customer_id"
-    t.string   "subscirption_id"
-    t.string   "plan_id"
+    t.string   "stripe_customer_id"
+    t.string   "subscription_id"
     t.string   "payment_source"
     t.boolean  "is_active",          default: true
+    t.integer  "plan_id"
   end
+
+  add_index "users", ["plan_id"], name: "index_users_on_plan_id", using: :btree
 
 end
