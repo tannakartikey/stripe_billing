@@ -12,4 +12,16 @@ class User < ActiveRecord::Base
       StripeSubscription.create(self, self.plan.stripe_id, (Date.today + 14).to_time.to_i)
     end
   end
+
+  def subscribed_to?
+    plan.name
+  end
+
+  def subscribed_yearly?
+    if plan.stripe_id.match(/yearly/) then true end
+  end
+
+  def subscribed_monthly?
+    if plan.stripe_id.match(/monthly/) then true end
+  end
 end
