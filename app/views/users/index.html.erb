@@ -1,0 +1,28 @@
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Email</th>
+    <th>Plan</th>
+    <th>Stripe ID</th>
+    <th>Sub. ID</th>
+    <th>Payment Source</th>
+    <th>is_active?</th>
+  </tr>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.id %></td>
+      <td><%= user.email %></td>
+      <td><%= user.plan.stripe_id %></td>
+      <td><%= user.stripe_customer_id %></td>
+      <td><%= user.subscription_id %></td>
+      <td><%= user.payment_source %></td>
+      <td><%= user.is_active? %></td>
+    </tr>
+  <% end %>
+</table>
