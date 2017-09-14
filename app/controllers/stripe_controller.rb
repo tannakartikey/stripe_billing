@@ -35,7 +35,7 @@ class StripeController < ApplicationController
     when "customer.subscription.trial_will_end"
       #triggers three days before trial going to add
       #reming the user by email to add payment source
-      SubscriptionMailer.delay.customer_subscription_trial_will_end(user)
+      SubscriptionMailer.customer_subscription_trial_will_end(user).deliver
 
     when "customer.subscription.deleted"
       #after three failed payment attempts as per the settings subscription will be deleted
@@ -43,7 +43,7 @@ class StripeController < ApplicationController
       user.is_active = false
       user.save!
       StripeCustomer.delete_all_sources(user)
-      SubscriptionMailer.delay.customer_subscription_deleted(user)
+      SubscriptionMailer.customer_subscription_deleted(user).deliver
 
     when "customer.subscription.updated"
       #to capture subscription from trial to active
@@ -51,21 +51,21 @@ class StripeController < ApplicationController
         if user.payment_source == nil
           user.is_active = false
           user.save!
-          SubscriptionMailer.delay.customer_subscription_updated(user)
+          SubscriptionMailer.customer_subscription_updated(user).deliver
         else
-          SubscriptionMailer.delay.trial_over(user)
+          SubscriptionMailer.trial_over(user).deliver
         end
       elsif event.data.previous_attributes.trial_end.present?
         user.is_active = true
         user.save!
         trial_end_date = Date.strptime(event.data.object.trial_end.to_s, '%s')
-        SubscriptionMailer.delay.trial_extended(user, trial_end_date)
+        SubscriptionMailer.trial_extended(user, trial_end_date).deliver
       end
 
     when "invoice.upcoming"
       #if source added, notify customer about upcoming payment deduction
       unless event.data.object.total == 0
-        SubscriptionMailer.delay.invoice_upcoming(user)
+        SubscriptionMailer.invoice_upcoming(user).deliver
       end
 
     when "invoice.updated"
@@ -76,34 +76,34 @@ class StripeController < ApplicationController
     when "charge.failed"
       source = event.data.object.source.last4
       error = event.data.object.outcome.seller_message
-      SubscriptionMailer.delay.charge_failed(user, source, error)
+      SubscriptionMailer.charge_failed(user, source, error).deliver
 
     when "invoice.payment_failed"
       next_payment_attempt = event.data.object.next_payment_attempt
       unless next_payment_attempt.nil?
         next_payment_attempt = Date.strptime(next_payment_attempt.to_s, '%s')
-        SubscriptionMailer.delay.invoice_payment_failed(user, next_payment_attempt)
+        SubscriptionMailer.invoice_payment_failed(user, next_payment_attempt).deliver
       end
 
     when "invoice.payment_succeeded"
       user.is_active = true
       user.save!
-      SubscriptionMailer.delay.invoice_payment_succeeded(user)
+      SubscriptionMailer.invoice_payment_succeeded(user).deliver
 
     when "customer.source.created"
       source = event.data.object.card.last4
-      SubscriptionMailer.delay.customer_source_created(user, source)
+      SubscriptionMailer.customer_source_created(user, source).deliver
 
     when "customer.subscription.created"
       user.subscription_id =  event.data.object.id
       user.is_active = true
       user.save!
-      SubscriptionMailer.delay.customer_subscription_created(user) unless event.data.object.metadata.methods(false).include? :automatic
+      SubscriptionMailer.customer_subscription_created(user).deliver unless event.data.object.metadata.methods(false).include? :automatic
 
     else
       #Every other event we are not handling
       if Rails.env.development?
-        #OtherEventsMailer.delay.notify(request.body.read)
+        #OtherEventsMailer.notify(request.body.read)
       end
     end
   end
