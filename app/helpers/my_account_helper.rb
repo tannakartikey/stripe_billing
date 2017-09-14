@@ -1,12 +1,14 @@
 module MyAccountHelper
   def promotion_message_if_free_plan_users
-    benefits = "<br>
-    <ul>
-      <li>Benefit 1</li>
-      <li>Benefit 2</li>
-    </ul>
-    </br>"
-    "<br>Subscribe to our paid plan avail #{benefits}".html_safe
+    if current_user.plan.stripe_id.nil?
+      benefits = "<br>
+      <ul>
+        <li>Benefit 1</li>
+        <li>Benefit 2</li>
+      </ul>
+      </br>"
+      "<br>Subscribe to our paid plan avail #{benefits}".html_safe
+    end
   end
 
   def if_no_payment_source_for_pro_user
