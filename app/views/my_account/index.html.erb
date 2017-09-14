@@ -1,7 +1,13 @@
-Welcome to your account!<br>
+Welcome to your account!
+<%= br(2) %>
 You are subscribed to plan: <b><%= current_user.plan.name %></b>
 <%= promotion_message_if_free_plan_users %>
 <%= if_no_payment_source_for_pro_user %>
+<%= br(2) %>
+Subscription Status: <b><%= @subscription.status %></b>
+  <%= br(2) %>
+  Current cycle end: <b><%= current_period_end %></b>
+  <%= br(2) %>
 <% unless current_user.plan.stripe_id.nil? %>
   <div class="center"><%= link_to "Cancel My Subscription", my_account_url, method: :delete, data: { confirm: 'Are you sure?' } %></div>
 <% end %>

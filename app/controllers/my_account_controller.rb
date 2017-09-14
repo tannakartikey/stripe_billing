@@ -2,6 +2,7 @@ class MyAccountController < ApplicationController
   before_filter :authenticate, only: [:index]
   before_filter :authorize, only: [:pro]
   def index
+    @subscription = StripeSubscription.retrieve(current_user) unless current_user.subscription_id.nil?
   end
   def destroy
     StripeSubscription.delete(current_user)

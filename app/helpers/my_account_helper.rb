@@ -14,7 +14,7 @@ module MyAccountHelper
 
   def if_no_payment_source_for_pro_user
     if current_user.payment_source.nil? && !current_user.plan.stripe_id.nil?
-    "Enter your card details to continue using subscription<br>
+    "<br><br>Enter your card details to continue using subscription<br>
      after trial end. You will be charged only after trial period".html_safe
     end
   end
