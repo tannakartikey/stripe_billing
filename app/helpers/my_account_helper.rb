@@ -7,7 +7,8 @@ module MyAccountHelper
         <li>Benefit 2</li>
       </ul>
       </br>"
-      "<br>Subscribe to our paid plan avail #{benefits}".html_safe
+      "<br>Subscribe to our paid plan avail #{benefits}
+      Go to #{link_to('Plans', plan_url)}".html_safe
     end
   end
 

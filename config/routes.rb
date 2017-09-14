@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   resource :my_account, only: [:show, :destroy], controller: 'my_account'
   resources :users
   resources :sessions
+  resource :plan, only: [:show], controller: 'plans'
   resource :card
 end
