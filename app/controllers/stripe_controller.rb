@@ -41,6 +41,7 @@ class StripeController < ApplicationController
       #after three failed payment attempts as per the settings subscription will be deleted
       user.subscription_id = nil
       user.is_active = false
+      user.trial_allowed = false
       user.save!
       StripeCustomer.delete_all_sources(user)
       SubscriptionMailer.customer_subscription_deleted(user).deliver
@@ -50,6 +51,7 @@ class StripeController < ApplicationController
       if event.data.object.status == "active" && event.data.previous_attributes.status == "trialing" 
         if user.payment_source == nil
           user.is_active = false
+          user.trial_allowed = false
           user.save!
           SubscriptionMailer.customer_subscription_updated(user).deliver
         else
