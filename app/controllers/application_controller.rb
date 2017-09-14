@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authenticate
-    redirect_to login_url, alert: "Please login to view this page" unless current_user
+    redirect_to login_url, alert: "Please login to view this page" unless current_user else true
   end
 
   def authorize
