@@ -60,7 +60,7 @@ class SubscriptionMailer < ActionMailer::Base
 
   def customer_subscription_created(user)
     @user = user
-    mail(to: @user.email, subject: subject("Your subscription at Currents is created"))
+    mail(to: @user.email, subject: subject("Your subscription at <app name> is created"))
   end
 
   private
