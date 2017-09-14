@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   def create_stripe_subscription
     unless self.plan.name == 'Free'
-      StripeSubscription.create(self, self.plan.stripe_id, (Date.today + 14).to_time.to_i)
+      StripeSubscription.create(self, self.plan.stripe_id, trial_end)
     end
   end
 
@@ -23,5 +23,10 @@ class User < ActiveRecord::Base
 
   def subscribed_monthly?
     if plan.stripe_id.match(/monthly/) then true end
+  end
+
+  def trial_end
+    if Rails.env.development? then return DateTime.now.to_i + 300 end
+    if Rails.env.production? then return (Date.today + 14).to_time.to_i end
   end
 end
