@@ -20,8 +20,10 @@ class StripeSubscription
     self.retrieve(user).delete
     user.subscription_id = nil
     user.is_active = false
+    user.trial_allowed = false
+    user.plan = Plan.find_by_name('Free')
     user.save!
-    StripeCustomer.delay.delete_all_sources(user)
+    StripeCustomer.delete_all_sources(user)
   end
 
   def self.is_active? (user)
