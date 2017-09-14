@@ -13,7 +13,8 @@
     <th>Sub. ID</th>
     <th>Payment Source</th>
     <th>is_active?</th>
-    <th></th>
+    <th>allowed_trial?</th>
+    <th>login_link</th>
   </tr>
   <% @users.each do |user| %>
     <tr>
@@ -24,6 +25,7 @@
       <td><%= user.subscription_id %></td>
       <td><%= user.payment_source %></td>
       <td><%= user.is_active? %></td>
+      <td><%= user.trial_allowed? %></td>
       <td><%= link_to 'Login', getin_path(user_id: user), method: :post %></td>
     </tr>
   <% end %>
