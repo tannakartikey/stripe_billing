@@ -1,1 +1,7 @@
-Welcome to your account!
+Welcome to your account!<br>
+
+You are subscribed to plan: <b><%= current_user.plan.name %></b>
+
+<%= promotion_message_if_free_plan_users %>
+
+<%= if_no_payment_source_for_pro_user %>
