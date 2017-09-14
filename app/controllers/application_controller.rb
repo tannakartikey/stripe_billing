@@ -11,7 +11,12 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  def authorize
-    redirect_to my_account_url, alert: "That page is only for Pro Users. Update your subscription!" unless current_user.is_active?
+  def authenticate
+    redirect_to login_url, alert: "Please login to view this page" unless current_user
   end
+
+  def authorize
+    redirect_to my_account_url, alert: "That page is only for Pro Users. Update your subscription!" unless authenticate && current_user.is_active?
+  end
+
 end
