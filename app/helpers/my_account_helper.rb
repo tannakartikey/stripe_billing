@@ -1,4 +1,12 @@
 module MyAccountHelper
+  def current_period_end
+    convert_to_date @subscription.current_period_end
+  end
+
+  def trial_end_date
+    convert_to_date @subscription.current_period_end
+  end
+
   def promotion_message_if_free_plan_users
     if current_user.plan.stripe_id.nil?
       benefits = "<br>
