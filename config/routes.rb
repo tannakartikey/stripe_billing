@@ -9,9 +9,10 @@ Rails.application.routes.draw do
   get 'only_pro', to: 'only_pro#index'
   post 'stripe_events', to: 'stripe#events', as: 'stripe_events'
 
-  resource :my_account, only: [:show, :destroy], controller: 'my_account'
   resources :users
   resources :sessions
+  resources :invoice, only: [:index], controller: 'invoices'
+  resource :my_account, only: [:show, :destroy], controller: 'my_account'
   resource :plan, only: [:show], controller: 'plans'
   resource :card
 end

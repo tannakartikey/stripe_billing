@@ -29,4 +29,13 @@ class User < ActiveRecord::Base
     if Rails.env.development? then return DateTime.now.to_i + 300 end
     if Rails.env.production? then return (Date.today + 14).to_time.to_i end
   end
+  
+  def has_active_subscription?
+    begin
+      StripeCustomer.retrieve(self).subscriptions.total_count > 0
+    rescue
+      return false
+    end
+  end
+
 end
