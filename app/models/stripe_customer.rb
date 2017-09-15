@@ -26,4 +26,12 @@ class StripeCustomer
     user.payment_source = nil
     user.save!
   end
+
+  def self.retrieve_or_create(user)
+    if user.stripe_customer_id.nil?
+      return self.create(user)
+    else
+      return self.retrieve(user)
+    end
+  end
 end

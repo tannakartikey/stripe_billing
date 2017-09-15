@@ -8,7 +8,7 @@ class CardsController < ApplicationController
 
   def create
     begin
-      @customer = StripeCustomer.retrieve(current_user)
+      @customer = StripeCustomer.retrieve_or_create(current_user)
       @source = @customer.sources.create({:source => params[:stripeSource]})
       @customer.default_source = @source.id
       @customer.save
@@ -19,17 +19,17 @@ class CardsController < ApplicationController
       redirect_to new_card_path and return
     end
 
-    if current_user.subscription_id == nil
-      begin
-        StripeSubscription.create(current_user)
-      rescue Stripe::CardError => error
-        flash[:error] = "There is some problem with your card. Please consult your bank"
-        redirect_to new_card_path and return
-      end
-    end
+    #if current_user.subscription_id == nil
+      #begin
+        #StripeSubscription.create(current_user)
+      #rescue Stripe::CardError => error
+        #flash[:error] = "There is some problem with your card. Please consult your bank"
+        #redirect_to new_card_path and return
+      #end
+    #end
 
     respond_to do |format|
-      format.html { redirect_to my_account_path, notice: notice }
+      format.html { redirect_to new_card_path, notice: "Card successfully updated" }
     end
   end
 

@@ -1,5 +1,5 @@
 <% unless current_user.payment_source.nil? %>
-  Current card in user:<br>
+  Current card in use:<br>
   Type: <%= @card.brand %><br>
   Last: <%= @card.last4 %><br>
   Expiry: <%= @card.exp_month.to_s + '/' + @card.exp_year.to_s %>
