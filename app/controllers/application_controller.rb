@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    redirect_to my_account_url, alert: "That page is only for Pro Users. Update your subscription!" unless authenticate && current_user.is_active?
+    redirect_to my_account_url, alert: "That page is only for Pro Users. Update your subscription or pay your charges!" unless authenticate && current_user.is_active? && !current_user.charge_failed?
   end
 
 end

@@ -12,11 +12,17 @@ class Charge
   end
 
   def self.create(user, amount)
-    Stripe::Charge.create(
-      customer: user.stripe_customer_id,
-      amount: amount,
-      currency: "usd"
-    )
+    begin
+      Stripe::Charge.create(
+        customer: user.stripe_customer_id,
+        amount: amount,
+        currency: "usd"
+      )
+    rescue
+      user.charge_failed = true
+      user.save!
+      raise
+    end
   end
 
   def initialize(charge)
