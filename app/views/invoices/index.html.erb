@@ -6,31 +6,19 @@
 </style>
 <h3>Invoices</h3>
 <% if current_user.has_active_subscription? %>
-  <% unless @invoices.data.count <= 1 %>
     <div id="invoices">
       <table>
         <thead>
           <tr>
+            <td>Number</td>
             <td>ID</td>
             <td>Date</td>
             <td>Amount</td>
-            <td>Period</td>
             <td>Status</td>
           </tr>
         </thead>
-        <% @invoices.data.each do |invoice| %>
-	  <% unless (invoice.total == 0 || invoice.subscription != current_user.subscription_id) %>
-          <tr>
-            <td><%= invoice.id %></td>
-            <td><%= invoice_date invoice %></td>
-            <td><%= invoice_total invoice %></td>
-            <td><%= invoice_period_start invoice %> to <%= invoice_period_end invoice %></td>
-            <td><%= invoice_paid? invoice %></td>
-          </tr>
-	  <% end %>
-        <% end %>
+	<%= render @invoices %>
       </table>
       If you had any previous cancelled subscription, thsoe invoices are not listed
     </div>
   <% end %>
-<% end %>

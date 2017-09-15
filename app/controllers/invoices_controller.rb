@@ -7,6 +7,8 @@ class InvoicesController < ApplicationController
                         rescue Stripe::InvalidRequestError => error
                           return nil
                         end
-    @invoices = @customer.invoices
+    #@invoices = @customer.invoices
+    @invoices = Invoice.
+      find_all_by_stripe_customer_id(current_user.stripe_customer_id)
   end
 end
