@@ -18,6 +18,8 @@ class Charge
         amount: amount,
         currency: "usd"
       )
+      user.charge_failed = false
+      user.save!
     rescue
       user.charge_failed = true
       user.save!

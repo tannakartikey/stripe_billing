@@ -1,0 +1,1 @@
+ - When card gets updated, change user_active to true
