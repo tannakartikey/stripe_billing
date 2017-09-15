@@ -52,6 +52,14 @@ class Invoice
     stripe_line_items.map { |stripe_line_item| LineItem.new(stripe_line_item) }
   end
 
+  def self.upcoming stripe_customer_id
+    begin 
+      new(Stripe::Invoice.upcoming(customer: stripe_customer_id))
+    rescue Stripe::InvalidRequestError => error
+      return nil
+    end
+  end
+
   private
 
   def self.stripe_invoices_for_customer_id(stripe_customer_id)
