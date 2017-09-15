@@ -1,0 +1,17 @@
+<tr>
+  <td>
+    <%= invoice.number %>
+  </td>
+  <td>
+    <%= invoice.stripe_invoice_id %>
+  </td>
+  <td>
+    <%= invoice.date.to_s(:short_date) %>
+  </td>
+  <td>
+    <%= number_to_currency invoice.total %>
+  </td>
+  <td>
+    <%= invoice.paid? %>
+  </td>
+</tr>
