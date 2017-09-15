@@ -68,7 +68,7 @@ class StripeController < ApplicationController
       end
 
     when "charge.failed"
-      source = event.data.object.source.last4
+      source = event.data.object.source.card.last4
       error = event.data.object.outcome.seller_message
       SubscriptionMailer.charge_failed(user, source, error).deliver
 
