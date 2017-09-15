@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :users
   resources :sessions
   resources :invoice, only: [:index], controller: 'invoices'
+  resource :charge, only: [:show, :new, :create], controller: 'charges'
   resource :my_account, only: [:show, :destroy], controller: 'my_account'
   resource :plan, only: [:show], controller: 'plans'
   resource :card

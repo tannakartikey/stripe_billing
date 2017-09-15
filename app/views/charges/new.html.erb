@@ -1,0 +1,7 @@
+<%= form_for charge_path, url: { action: :create }, method: :post do |f| %>
+	<%= f.label :user %>
+	<%= f.collection_select :id, User.all, :id, :email %><br>
+	<%= f.label :amount %>
+	<%= f.text_field :amount%><br>
+	<%= f.submit "Charge" %>
+<% end %>

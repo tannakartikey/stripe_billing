@@ -1,0 +1,17 @@
+<tr>
+  <td>
+    <%= charge.id %>
+  </td>
+  <td>
+    <%= charge.date.to_s(:short_date) %>
+  </td>
+  <td>
+    <%= charge.amount %>
+  </td>
+  <td>
+    <%= charge.status %>
+  </td>
+  <td>
+    <%= charge.paid? %>
+  </td>
+</tr>
