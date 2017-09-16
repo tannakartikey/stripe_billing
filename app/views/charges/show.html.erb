@@ -1,8 +1,16 @@
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
 <table>
   <th>ID</th>
   <th>Date</th>
   <th>Amount</th>
   <th>Status</th>
   <th>Paid?</th>
-<%= render @charges %>
+  <th>Try Again</th>
+  <th>Description</th>
+  <%= render @charges %>
 </table>

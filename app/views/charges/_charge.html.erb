@@ -15,6 +15,9 @@
     <%= charge.paid? %>
   </td>
   <td>
-    <%= link_to 'Try Again', repay_url(user_id: current_user.id, amount: charge.amount), {method: :post} %>
+    <%= link_to 'Try Again', repay_url(user_id: current_user.id, amount: charge.amount, charge_id: charge.id ), {method: :post} unless charge.paid? %>
+  </td>
+  <td>
+    <%= charge.description %>
   </td>
 </tr>

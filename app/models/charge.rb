@@ -3,7 +3,7 @@ class Charge
 
   def self.list_by_customer_stripe_id(stripe_customer_id)
     if stripe_customer_id.present?
-        stripe_charges_for_customer_id(stripe_customer_id).map do |charge|
+      stripe_charges_for_customer_id(stripe_customer_id).map do |charge|
         new(charge)
       end
     else
@@ -11,12 +11,13 @@ class Charge
     end
   end
 
-  def self.create(user, amount)
+  def self.create(user, amount, description=nil)
     begin
       Stripe::Charge.create(
         customer: user.stripe_customer_id,
         amount: amount,
-        currency: "usd"
+        currency: "usd",
+        description: description
       )
       user.charge_failed = false
       user.save!
@@ -53,6 +54,10 @@ class Charge
 
   def paid?
     charge.paid
+  end
+
+  def description
+    charge.description
   end
 
   def to_partial_path
