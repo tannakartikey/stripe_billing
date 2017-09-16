@@ -15,10 +15,10 @@ There is a `/users` path created to make the testing easy. It shows the various 
 Users table has various flags which determines the status of the user. They are as described below:
 
  - `is_active`:
-This flag decided if user can use the pro content or not. Whenever user is not supposed to use pro features any more, this flag is set to false i.e. if a user's subscription is deleted or after they trial is over if user has not updated card details, this flag is set to false. 
+This flag decided if user can use the pro content or not. Whenever user is not supposed to use pro features any more, this flag is set to false i.e. if a user's subscription is deleted or after they trial is over if user has not updated card details, this flag is set to false.
 
  - `charge_failed`:
-If the charge is failed, the app might want to restrict user from certain actions. Currently, it does not let user visit `only_pro` content if the flag is set to true. If the falg is set to `false`, user is not restricted. 
+If the charge is failed, the app might want to restrict user from certain actions. Currently, it does not let user visit `only_pro` content if the flag is set to true. If the falg is set to `false`, user is not restricted.
 
 There is a functionality to repay the last failed charge. If the user repays successfully, this flag will set to `true` and user will be free to use pro content if other flags allowed.
 
