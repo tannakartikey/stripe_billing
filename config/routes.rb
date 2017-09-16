@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :sessions
   resources :invoice, only: [:index], controller: 'invoices'
   resource :charge, only: [:show, :new, :create], controller: 'charges'
-  resource :my_account, only: [:show, :destroy], controller: 'my_account'
+  resource :my_account, only: [:show, :update, :destroy], controller: 'my_account'
   resource :plan, only: [:show], controller: 'plans'
   resource :card
 end

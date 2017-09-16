@@ -9,6 +9,7 @@ class StripeSubscription
                   )
     user.subscription_id = subscription.id
     user.is_active = true
+    user.plan = Plan.find_by_stripe_id(plan) || Plan.find_by_name('Free')
     user.save!
   end
 
@@ -16,14 +17,8 @@ class StripeSubscription
     Stripe::Subscription.retrieve(user.subscription_id) unless user.subscription_id.nil?
   end
 
-  def self.delete(user)
-    self.retrieve(user).delete
-    user.subscription_id = nil
-    user.is_active = false
-    user.trial_allowed = false
-    user.plan = Plan.find_by_name('Free')
-    user.save!
-    StripeCustomer.delete_all_sources(user)
+  def self.delete(user, at_period_end)
+    self.retrieve(user).delete(at_period_end: at_period_end)
   end
 
   def self.is_active? (user)

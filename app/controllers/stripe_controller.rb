@@ -34,6 +34,7 @@ class StripeController < ApplicationController
       user.subscription_id = nil
       user.is_active = false
       user.trial_allowed = false
+      user.plan = Plan.find_by_name('Free')
       user.save!
       StripeCustomer.delete_all_sources(user)
       SubscriptionMailer.customer_subscription_deleted(user).deliver
