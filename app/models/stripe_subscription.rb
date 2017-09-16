@@ -1,5 +1,6 @@
 class StripeSubscription
   def self.create(user, plan, trial_end = 'now')
+    trial_end = 'now' if user.trial_allowed?
     StripeCustomer.create(user) if user.stripe_customer_id.nil?
     subscription = Stripe::Subscription.create(
                     :customer  => user.stripe_customer_id,
@@ -19,6 +20,19 @@ class StripeSubscription
 
   def self.delete(user, at_period_end)
     self.retrieve(user).delete(at_period_end: at_period_end)
+  end
+
+  def self.update(user, plan)
+    subscription = self.retrieve(user)
+    item_id = subscription.items.data[0].id
+    items = [{
+      id: item_id,
+      plan: plan,
+    }]
+    subscription.items = items
+    subscription.save
+    user.plan = Plan.find_by_stripe_id(plan)
+    user.save!
   end
 
   def self.is_active? (user)

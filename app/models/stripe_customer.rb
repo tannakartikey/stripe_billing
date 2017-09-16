@@ -1,6 +1,9 @@
 class StripeCustomer
     
   def self.create(user)
+    user.payment_source = nil
+    user.subscription_id = nil
+    user.payment_source = nil
     customer = Stripe::Customer.create(email: user.email)
     user.stripe_customer_id = customer.id
     user.save!

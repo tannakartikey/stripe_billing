@@ -1,7 +1,8 @@
-You are subscribed to plan: <%= @plan %><br>
-<%#<%= form_for plan_update do |f| %>%>
-  <%#<div class="field">%>
-    <%#<%= f.label :plans %><br />%>
-    <%#<%= f.collection_select(:plan_id, Plan.all, :id, :name) %>%>
-  <%#</div>%>
-<%#<% end %>%>
+You are subscribed to plan: <%= @plan.name %><br>
+<%= form_for :plan_update, url: plan_url, method: :patch do |f| %>
+  <div class="field">
+    <%= f.label :plans %><br>
+    <%= f.collection_select(:plan_id, @plans, :stripe_id, :name) %><br>
+    <%= f.submit "Change Plan" %>
+  </div>
+<% end %>
