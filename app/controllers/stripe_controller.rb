@@ -72,6 +72,11 @@ class StripeController < ApplicationController
       error = event.data.object.outcome.seller_message
       SubscriptionMailer.charge_failed(user, source, error).deliver
 
+    when "charge.succeeded"
+      amount = event.data.object.amount/100
+      description = event.data.object.description
+      SubscriptionMailer.charge_succeeded(user, amount, description).deliver 
+
     when "invoice.payment_failed"
       next_payment_attempt = event.data.object.next_payment_attempt
       unless next_payment_attempt.nil?
