@@ -1,6 +1,6 @@
 class StripeSubscription
   def self.create(user, plan, trial_end = 'now')
-    user.trial_allowed? ? trial_end = self.trial_end : trial_end = now
+    user.trial_allowed? ? trial_end = self.trial_end : trial_end = 'now'
     StripeCustomer.create(user) if user.stripe_customer_id.nil?
     subscription = Stripe::Subscription.create(
                     :customer  => user.stripe_customer_id,
