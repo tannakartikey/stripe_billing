@@ -8,9 +8,7 @@ class Charge
       end
     else
       []
-    end
-  end
-
+    end end 
   def self.create(user, amount, description=nil)
     begin
       Stripe::Charge.create(
@@ -62,6 +60,10 @@ class Charge
 
   def to_partial_path
     "charges/#{self.class.name.underscore}"
+  end
+
+  def refunded?
+    charge.refunded
   end
 
   private
