@@ -11,6 +11,7 @@
     Due on:<%= @upcoming.date.to_s(:short_date) %><br>
     Amount due:<%= number_to_currency @upcoming.total %>
   </div>
+<% end %>
   <div id="invoices">
     <h4> Generated Invoices:</h4>
     <table>
@@ -27,4 +28,3 @@
     </table>
     If you had any previous cancelled subscription, thsoe invoices are not listed
   </div>
-<% end %>
