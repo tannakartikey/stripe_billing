@@ -9,6 +9,10 @@ You are subscribed to plan: <b><%= current_user.plan.name %></b>
   <%= br(2) %>
   Current cycle end: <b><%= current_period_end %></b>
   <%= br(2) %>
+  <% if @subscription.status == "trialing" %>
+    Days remaining: <%= (Date.strptime(@subscription.trial_end.to_s, '%s') - Date.today).to_i %>
+  <% end %>
+  <%= br(2) %>
   <div>
     <% if @subscription.cancel_at_period_end %>
       <%= link_to "Reactivate My Subscription", my_account_url, action: :reactivate, method: :put %>
