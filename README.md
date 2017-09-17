@@ -1,6 +1,20 @@
 # README
 
-## Seed
+## Setup
+
+### Stripe
+
+Before using the app Stripe has to be configured properly. Stripe provide `publishable_key` and `secret_key` using which our app authenticates with Stripe. These keys have to be set as environment variables in `config/application.yml`. The app uses `figaro` gem to set environment variables.
+
+Stripe sends various events as webhooks to our app. The `/stripe_events` path receives these webhooks from Stripe in our app. On Stripe, <https://dashboard.stripe.com/account/webhooks>, this setting should point to `http://<app_url>/stripe_events`.
+
+While testing on local, service like <https://ngrok.com/> can be used. After installing ngrok on the machine, command `ngrok http 3000`, will create a tunnel between internet and local machine's port `3000` via ngrok. ngrok will provide a URL as an ouptput of the command. `<the_ngrok_url>/stripe_events` should be set as Webhook URL on Stripe.
+
+### Mail
+
+The gem `mailcatcher` is used to inspect the outgoing mail from the app. Install `mailcatcher` with the command `gem install mailcatcher`. Once installed the command, `mailcatcher`, will start a background service to inspect emails and will provide a URL to inspect those emails using Web UI.
+
+### Seed
 
 `rake db:seed` creates the plans on Stripe creates Plans on database as well as on Stripe if they are not already created.
 
