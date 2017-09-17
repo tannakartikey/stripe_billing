@@ -4,7 +4,7 @@
 
 ### Stripe
 
-Before using the app Stripe has to be configured properly. Stripe provide `publishable_key` and `secret_key` using which our app authenticates with Stripe. These keys have to be set as environment variables in `config/application.yml`. The app uses `figaro` gem to set environment variables.
+Before using the app Stripe has to be configured properly. Stripe provide `publishable_key` and `secret_key` using which our app authenticates with Stripe. These keys have to be set as environment variables in `config/application.yml`. The sample file `config/application.yml.sample` has been added for the reference. This config file (should not be and) is not being tracked with Git. The app uses `figaro` gem to set environment variables.
 
 Stripe sends various events as webhooks to our app. The `/stripe_events` path receives these webhooks from Stripe in our app. On Stripe, <https://dashboard.stripe.com/account/webhooks>, this setting should point to `http://<app_url>/stripe_events`.
 
