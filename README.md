@@ -39,6 +39,9 @@ There is a functionality to repay the last failed charge. If the user repays suc
  - `allowed_trial`:  
 If a user subscribes to any paid plan, cancels it, and after few days again subscribes then they should not be able to go on trial again. `allowed_trial` keeps track on users' trial elligibility. If set to `false` user's subscription will be created without trial.
 
+ - `payment_source`:
+We are not supposed to store user's payment details on our server. When we submit the details directly to Stripe, it returns a token using which we can charge customer anytime in the future.
+
 ## Pages
 
 ### Only Pro
