@@ -100,6 +100,16 @@ class StripeController < ApplicationController
       user.save!
       SubscriptionMailer.customer_subscription_created(user).deliver unless event.data.object.metadata.methods(false).include? :automatic
 
+    when "charge.refunded"
+      StripeSubscription.retrieve(user).delete
+      StripeCustomer.delete_all_sources(user)
+      amount = event.data.object.amount/100
+      user.subscription_id = nil
+      user.is_active = false
+      user.trial_allowed = false
+      user.plan = Plan.find_by_name('Free')
+      user.save!
+      SubscriptionMailer.charge_refunded(user, amount).deliver
     else
       #Every other event we are not handling
       if Rails.env.development?

@@ -70,6 +70,13 @@ class SubscriptionMailer < ActionMailer::Base
     mail(to: @user.email, subject: subject("Your subscription at <app name> is created"))
   end
 
+  def charge_refunded(user, amount = nil)
+    @user = user
+    @amount = amount
+    mail(to: @user.email, subject: subject("You have received the refund"))
+  end
+
+
   private
   
   def subject(subject)
