@@ -14,21 +14,12 @@ class CardsController < ApplicationController
       @customer.save
       current_user.payment_source = @source
       current_user.save!
+      pay_pending_invoices unless current_user.plan.stripe_id.nil?
       SubscriptionMailer.source_chargeable(current_user).deliver
-    rescue Stripe::CardError => error
+    rescue => error
       flash[:error] = error.message
       redirect_to new_card_path and return
     end
-
-    #if current_user.subscription_id == nil
-      #begin
-        #StripeSubscription.create(current_user)
-      #rescue Stripe::CardError => error
-        #flash[:error] = "There is some problem with your card. Please consult your bank"
-        #redirect_to new_card_path and return
-      #end
-    #end
-
     respond_to do |format|
       format.html { redirect_to new_card_path, notice: "Card successfully updated" }
     end
@@ -42,5 +33,12 @@ class CardsController < ApplicationController
       notice += " You are successfully subscribed. Cheers!"
     end
     notice
+  end
+
+  def pay_pending_invoices
+    invoices = Invoice.find_all_by_stripe_customer_id(current_user.stripe_customer_id) || []
+    unless invoices.empty? && invoices.first.paid?
+      invoices.first.pay
+    end
   end
 end

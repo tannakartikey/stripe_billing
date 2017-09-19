@@ -36,6 +36,10 @@ class Invoice
     stripe_invoice.paid
   end
 
+  def pay
+    stripe_invoice.pay
+  end
+
   def date
     convert_stripe_time(stripe_invoice.date)
   end
