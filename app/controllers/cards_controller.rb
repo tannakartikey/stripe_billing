@@ -14,6 +14,7 @@ class CardsController < ApplicationController
       @customer.save
       current_user.payment_source = @source
       current_user.save!
+      SubscriptionMailer.source_chargeable(current_user).deliver
     rescue Stripe::CardError => error
       flash[:error] = error.message
       redirect_to new_card_path and return

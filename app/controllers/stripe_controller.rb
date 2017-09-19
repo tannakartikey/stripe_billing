@@ -90,10 +90,6 @@ class StripeController < ApplicationController
       user.save!
       SubscriptionMailer.invoice_payment_succeeded(user).deliver
 
-    when "source.chargable"
-      source = event.data.object.card.last4
-      SubscriptionMailer.source_chargable(user, source).deliver
-
     when "customer.subscription.created"
       user.subscription_id =  event.data.object.id
       user.is_active = true

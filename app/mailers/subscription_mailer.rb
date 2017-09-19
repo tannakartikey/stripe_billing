@@ -59,9 +59,8 @@ class SubscriptionMailer < ActionMailer::Base
   def invoice_payment_succeeded(user)
   end
   
-  def source_chargable(user, source=nil)
+  def source_chargeable(user, source=nil)
     @user = user
-    @source = source
     mail(to: @user.email, subject: subject("Your payment source was updated"))
   end
 
