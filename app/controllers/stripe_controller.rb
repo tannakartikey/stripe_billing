@@ -64,8 +64,10 @@ class StripeController < ApplicationController
       end
 
     when "invoice.updated"
-      if event.previous_attributes.attempt_count >= 0
-        next_attempt = event.previous_attributes.next_payment_attempt
+      if event.previous_attributes.paid == 'false'
+        user.is_active = true
+        user.save!
+        SubscriptionMailer.invoice_payment_succeeded(user).deliver
       end
 
     when "charge.failed"
@@ -74,9 +76,11 @@ class StripeController < ApplicationController
       SubscriptionMailer.charge_failed(user, source, error).deliver
 
     when "charge.succeeded"
-      amount = event.data.object.amount/100
-      description = event.data.object.description
-      SubscriptionMailer.charge_succeeded(user, amount, description).deliver 
+      if event.data.object.metadata.extra_charge
+        amount = event.data.object.amount/100
+        description = event.data.object.description
+        SubscriptionMailer.charge_succeeded(user, amount, description).deliver 
+      end
 
     when "invoice.payment_failed"
       next_payment_attempt = event.data.object.next_payment_attempt

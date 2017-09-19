@@ -15,14 +15,14 @@ class Charge
         customer: user.stripe_customer_id,
         amount: amount,
         currency: "usd",
-        description: description
+        description: description,
+        metadata: {"extra_charge" => true}
       )
       user.charge_failed = false
       user.save!
     rescue
       user.charge_failed = true
       user.save!
-      raise
     end
   end
 
