@@ -7,6 +7,7 @@ class PlansController < ApplicationController
 
   def update
     plan = params['plan_update']['plan_id']
+    old_plan = current_user.plan.name
     if current_user.stripe_customer_id.nil? || current_user.subscription_id.nil?
       begin
         StripeCustomer.create(current_user) if current_user.stripe_customer_id.nil?
@@ -23,5 +24,6 @@ class PlansController < ApplicationController
         redirect_to plan_url, notice: error.message
       end
     end
+    SubscriptionMailer.plan_change(current_user, old_plan, Plan.find_by_stripe_id(plan).name).deliver
   end
 end
