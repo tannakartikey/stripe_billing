@@ -1,7 +1,7 @@
 <%= render 'layouts/mailer_header' %>
 We were successfully able to change your old plan <%= @old_plan %> to <%= @new_plan %>.
 
-<% if @user.trial_allowed %>
+<% if @trial_allowed %>
   You are on trial period of 14 days. You can take benefits of all our free features during this time.
   Don't Miss It!
 <% end %>

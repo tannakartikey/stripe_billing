@@ -8,6 +8,7 @@ class PlansController < ApplicationController
   def update
     plan = params['plan_update']['plan_id']
     old_plan = current_user.plan.name
+    trial_allowed = current_user.trial_allowed?
     if current_user.stripe_customer_id.nil? || current_user.subscription_id.nil?
       begin
         StripeCustomer.create(current_user) if current_user.stripe_customer_id.nil?
@@ -20,7 +21,7 @@ class PlansController < ApplicationController
     else
       begin
         StripeSubscription.update(current_user, plan)
-        send_plan_change_email(current_user, old_plan, Plan.find_by_stripe_id(plan).name)
+        send_plan_change_email(current_user, old_plan, Plan.find_by_stripe_id(plan).name, trial_allowed)
         redirect_to my_account_path, notice: "Successfully changed plan"
       rescue => error
         redirect_to plan_url, notice: error.message
@@ -31,7 +32,7 @@ class PlansController < ApplicationController
 
   private
 
-  def send_plan_change_email(current_user, old_plan, new_plan)
-    SubscriptionMailer.plan_change(current_user, old_plan, new_plan).deliver
+  def send_plan_change_email(current_user, old_plan, new_plan, trial_allowed)
+    SubscriptionMailer.plan_change(current_user, old_plan, new_plan, trial_allowed).deliver
   end
 end
