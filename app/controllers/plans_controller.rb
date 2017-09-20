@@ -13,7 +13,7 @@ class PlansController < ApplicationController
       begin
         StripeCustomer.create(current_user) if current_user.stripe_customer_id.nil?
         StripeSubscription.create(current_user, plan) if current_user.subscription_id.nil?
-        send_plan_change_email(current_user, old_plan, Plan.find_by_stripe_id(plan).name)
+        send_plan_change_email(current_user, old_plan, Plan.find_by_stripe_id(plan).name, trial_allowed)
         redirect_to my_account_path, notice: "Successfully changed plan"
       rescue => error
         redirect_to plan_url, notice: error.message

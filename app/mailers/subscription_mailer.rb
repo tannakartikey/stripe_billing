@@ -78,7 +78,7 @@ class SubscriptionMailer < ActionMailer::Base
     mail(to: @user.email, subject: subject("You have received the refund"))
   end
 
-  def plan_change(user, old_plan = nil, new_plan = nil, trial_allowed)
+  def plan_change(user, old_plan = nil, new_plan = nil, trial_allowed = nil)
     @user = user
     @old_plan = old_plan
     @new_plan = new_plan
