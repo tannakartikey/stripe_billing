@@ -93,7 +93,7 @@ class StripeController < ApplicationController
       user.is_active = true
       user.save!
       amount = event.data.object.total/100
-      SubscriptionMailer.invoice_payment_succeeded(user, amount).deliver
+      SubscriptionMailer.invoice_payment_succeeded(user, amount).deliver unless event.data.object.total == 0
 
     when "customer.subscription.created"
       user.subscription_id =  event.data.object.id
