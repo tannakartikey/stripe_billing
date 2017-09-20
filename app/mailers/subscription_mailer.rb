@@ -56,7 +56,10 @@ class SubscriptionMailer < ActionMailer::Base
     mail(to: @user.email, subject: subject("We failed to charge your card"))
   end
 
-  def invoice_payment_succeeded(user)
+  def invoice_payment_succeeded(user, amount = nil)
+    @user = user
+    @amount = amount
+    mail(to: @user.email, subject: subject("We successfully received your payment"))
   end
   
   def source_chargeable(user, source=nil)
